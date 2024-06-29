@@ -1,0 +1,17 @@
+{
+  "name": "local-tests-pw-dima",
+  "version": "1.0.0",
+  "description": "Playwright end-to-end tests for localcoding.us ",
+  "scripts": {
+    "test": "playwright test",
+    "report": "playwright show-report"
+  },
+  "author": "Evchen Niehaus",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.9"
+  },
+  "dependencies": {
+    "@playwright/test": "1.45.0"
+  }
+}
