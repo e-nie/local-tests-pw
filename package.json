@@ -5,12 +5,15 @@
   "scripts": {
     "test": "playwright test",
     "test:debug": "playwright test --headed",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "format": "prettier ./ --write --list-different",
+    "lint": "prettier ./ --check"
   },
   "author": "Evchen Niehaus",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.14.9"
+    "@types/node": "^20.14.9",
+    "prettier": "^3.3.2"
   },
   "dependencies": {
     "@playwright/test": "1.45.0",
