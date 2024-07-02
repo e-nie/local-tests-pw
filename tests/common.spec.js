@@ -3,27 +3,27 @@ import { logIn } from '../common/log-in';
 
 test.describe('Common', () => {
     test.beforeEach(async ({ page }) => {
-        await logIn(page, 'vl1vl@yahoo.com', '57ThTRTV99qf!5L');
+        await logIn(page, process.env.EMAIL, process.env.PASSWORD);
     });
 
 
     test('Navigation', async ({ page }) => {
         await page.getByTestId('topmenu-Courses').click();
-        await expect(page).toHaveURL('https://coding.pasv.us/course');
+        await expect(page).toHaveURL('/course');
         await expect(page.getByText('Interactive Courses')).toBeVisible();
 
 
         await page.getByTestId('topmenu-Challenges').click();
-        await expect(page).toHaveURL('https://coding.pasv.us/challenge?limit=30&page=1');
+        await expect(page).toHaveURL('/challenge?limit=30&page=1');
         await expect(page.getByText('Coding challenges')).toBeVisible();
 
         await page.getByTestId('topmenu-Interview Questions').click();
-        await expect(page).toHaveURL('https://coding.pasv.us/flash');
+        await expect(page).toHaveURL('/flash');
         await expect(page.getByText('Interview practice cards')).toBeVisible();
 
 
         await page.getByTestId('topmenu-Diary').click();
-        await expect(page).toHaveURL('https://coding.pasv.us/diary?page=1');
+        await expect(page).toHaveURL('/diary?page=1');
         await expect(page.getByText('Daily reports')).toBeVisible();
     });
 
