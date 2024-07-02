@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Authentication & Authorization ', () => {
-    test('Sign in with existing credentials', async ({ page }) => {
-
-        //precondition
+    test.beforeEach(async ({ page }) => {
         await page.goto('https://coding.pasv.us/user/login');
+
+    });
+
+    test('Sign in with existing credentials', async ({ page }) => {
 
         await page.locator('#normal_login_email').fill('vl1vl@yahoo.com');
         await page.locator('#normal_login_password').fill('57ThTRTV99qf!5L');
@@ -22,9 +24,7 @@ test.describe('Authentication & Authorization ', () => {
         await page.locator('button[type="submit"]').click();
 
         const toast = page.locator('.ant-notification-notice-message');
-
         await expect(toast).toBeVisible();
-
         await expect(toast).toHaveText('User login. Fail');
     })
     ;
