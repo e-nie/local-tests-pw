@@ -1,31 +1,28 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "../common/test";
 
-test.describe('Authentication & Authorization ', () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto('/user/login');
+test.describe("Authentication & Authorization ", () => {
+  test.beforeEach(async ({ loginPage }) => {
+    // await page.goto('/user/login');
 
-    });
+    await loginPage.open();
+  });
 
-    test('Sign in with existing credentials', async ({ page }) => {
+  //we do not use login method from login.js, because we want to test.js each step separately - for more clarity/obviousness
+  test("Sign in with existing credentials", async ({ page, loginPage }) => {
+    await loginPage.emailInput.fill(process.env.EMAIL);
+    await loginPage.passwordInput.fill(process.env.PASSWORD);
+    await loginPage.submitButton.click();
 
-        await page.locator('#normal_login_email').fill(process.env.EMAIL);
-        await page.locator('#normal_login_password').fill(process.env.PASSWORD);
-        await page.locator('button[type="submit"]').click();
+    await expect(page.locator(".ant-avatar-square")).toBeVisible(); //не относится к странице логина, поэтому оставляем селектор
+  });
 
-        await expect(page.locator('.ant-avatar-square')).toBeVisible();
+  //negative
+  test("Sign in with non-existing credentials", async ({ loginPage }) => {
+    await loginPage.emailInput.fill("vl1vl@yahoo.com");
+    await loginPage.passwordInput.fill("invalid!");
+    await loginPage.submitButton.click();
 
-    });
-
-//negative
-    test('Sign in with non-existing credentials', async ({ page }) => {
-        await page.goto('https://coding.pasv.us/user/login');
-        await page.locator('#normal_login_email').fill('vl1vl@yahoo.com');
-        await page.locator('#normal_login_password').fill('invalid!');
-        await page.locator('button[type="submit"]').click();
-
-        const toast = page.locator('.ant-notification-notice-message');
-        await expect(toast).toBeVisible();
-        await expect(toast).toHaveText('User login. Fail');
-    })
-    ;
+    await expect(loginPage.toast).toBeVisible();
+    await expect(loginPage.toast).toHaveText("User login. Fail");
+  });
 });
