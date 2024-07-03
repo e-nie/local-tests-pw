@@ -21,7 +21,8 @@ module.exports = defineConfig({
     baseURL: process.env.BASE_URL,
 
     /* Collect trace when retrying the failed test.js. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    trace: "retain-on-failure",
+    video: "retain-on-failure", //всегда записывать видео, но оставлять его только в случае ошибки
     testIdAttribute: "data-qa",
   },
 
