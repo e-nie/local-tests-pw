@@ -6,20 +6,20 @@ test.describe("Common", () => {
     await loginPage.logIn(process.env.EMAIL, process.env.PASSWORD);
   });
 
-  test("Navigation", async ({ page }) => {
-    await page.getByTestId("topmenu-Courses").click();
+  test("Navigation", async ({ page, loginPage }) => {
+    await loginPage.navbar.courses.click();
     await expect(page).toHaveURL("/course");
     await expect(page.getByText("Interactive Courses")).toBeVisible();
 
-    await page.getByTestId("topmenu-Challenges").click();
+    await loginPage.navbar.challenges.click();
     await expect(page).toHaveURL("/challenge?limit=30&page=1");
     await expect(page.getByText("Coding challenges")).toBeVisible();
 
-    await page.getByTestId("topmenu-Interview Questions").click();
+    await loginPage.navbar.interviewQuestions.click();
     await expect(page).toHaveURL("/flash");
     await expect(page.getByText("Interview practice cards")).toBeVisible();
 
-    await page.getByTestId("topmenu-Diary").click();
+    await loginPage.navbar.diary.click();
     await expect(page).toHaveURL("/diary?page=1");
     await expect(page.getByText("Daily reports")).toBeVisible();
   });
