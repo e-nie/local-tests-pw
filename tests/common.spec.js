@@ -1,9 +1,17 @@
 import { test, expect } from "../common/test";
+import { loginWithApi } from "../common/log-in-with-api";
 
 test.describe("Common", () => {
-  test.beforeEach(async ({ loginPage }) => {
+  test.beforeEach(async ({ page, request, context, loginPage }) => {
     await loginPage.open();
-    await loginPage.logIn(process.env.EMAIL, process.env.PASSWORD);
+    // await loginPage.logIn(process.env.EMAIL, process.env.PASSWORD); // login with environment variables
+    await loginWithApi(
+      page,
+      request,
+      context,
+      process.env.EMAIL,
+      process.env.PASSWORD,
+    );
   });
 
   test("Navigation", async ({ page, loginPage }) => {
