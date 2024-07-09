@@ -1,28 +1,27 @@
-import { test, expect } from "../common/test";
+import {test, expect} from '@playwright/test'
 
-test.describe("Authentication & Authorization ", () => {
-  test.beforeEach(async ({ loginPage }) => {
-    // await page.goto('/user/login');
+test.describe('Authentication & Authorization ', () => {
+  test.beforeEach(async ({page}) => {
+    await page.goto('/user/login')
+  })
 
-    await loginPage.open();
-  });
+  test('Sign in with existing credentials', async ({page}) => {
+    await page.locator('#normal_login_email').fill(process.env.EMAIL)
+    await page.locator('#normal_login_password').fill(process.env.PASSWORD)
+    await page.locator('button[type="submit"]').click()
 
-  //we do not use login method from login.js, because we want to test.js each step separately - for more clarity/obviousness
-  test("Sign in with existing credentials", async ({ page, loginPage }) => {
-    await loginPage.input.email.fill(process.env.EMAIL);
-    await loginPage.input.password.fill(process.env.PASSWORD);
-    await loginPage.button.submit.click();
-
-    await expect(page.locator(".ant-avatar-square")).toBeVisible(); //не относится к странице логина, поэтому оставляем селектор
-  });
+    await expect(page.locator('.ant-avatar-square')).toBeVisible()
+  })
 
   //negative
-  test("Sign in with non-existing credentials", async ({ loginPage }) => {
-    await loginPage.input.email.fill("vl1vl@yahoo.com");
-    await loginPage.input.password.fill("invalid!");
-    await loginPage.button.submit.click();
+  test('Sign in with non-existing credentials', async ({page}) => {
+    await page.goto('https://coding.pasv.us/user/login')
+    await page.locator('#normal_login_email').fill('vl1vl@yahoo.com')
+    await page.locator('#normal_login_password').fill('invalid!')
+    await page.locator('button[type="submit"]').click()
 
-    await expect(loginPage.toast).toBeVisible();
-    await expect(loginPage.toast).toHaveText("User login. Fail");
-  });
-});
+    const toast = page.locator('.ant-notification-notice-message')
+    await expect(toast).toBeVisible()
+    await expect(toast).toHaveText('User login. Fail')
+  })
+})
